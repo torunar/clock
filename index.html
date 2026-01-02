@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Current Time</title>
+    <style>
+        body {
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        body.dark-mode {
+            background-color: #222;
+            color: #fff;
+        }
+
+        .time-display {
+            font-variant-numeric: tabular-nums;
+            font-size: min(55vh, 30vw);
+            font-family: sans-serif;
+            text-align: center;
+            position: relative;
+        }
+
+        .colon {
+            animation: blink 1s infinite;
+        }
+
+        @keyframes blink {
+            50% {
+                opacity: 0;
+            }
+        }
+
+        .theme-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            background-color: #ddd;
+        }
+
+        :fullscreen .theme-toggle {
+            display: none;
+        }
+
+        .dark-mode .theme-toggle {
+            background-color: #444;
+            color: #fff;
+        }
+
+        .fullscreen-toggle {
+            position: fixed;
+            top: 20px;
+            right: 90px;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            background-color: #ddd;
+        }
+
+        .dark-mode .fullscreen-toggle {
+            background-color: #444;
+            color: #fff;
+        }
+
+        :fullscreen .fullscreen-toggle {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+<button class="fullscreen-toggle" id="fullscreenToggle">⛶</button>
+<button class="theme-toggle" id="themeToggle">🌙️</button>
+<div class="time-display">
+    <span id="hours">--</span><span class="colon">:</span><span id="minutes">--</span>
+</div>
+<script>
+    function updateTime() {
+        const now = new Date();
+        const hours = String(now.getHours()).padStart(2, '0');
+        const minutes = String(now.getMinutes()).padStart(2, '0');
+        document.getElementById('hours').textContent = hours;
+        document.getElementById('minutes').textContent = minutes;
+    }
+
+    function toggleDarkMode() {
+        document.body.classList.toggle('dark-mode');
+        const isDarkMode = document.body.classList.contains('dark-mode');
+        localStorage.setItem('darkMode', isDarkMode);
+        const themeToggle = document.getElementById('themeToggle');
+        themeToggle.textContent = isDarkMode ? '☀️' : '🌙';
+    }
+
+    function toggleFullscreen() {
+        if (!document.fullscreenElement) {
+            document.documentElement.requestFullscreen();
+        } else {
+            document.exitFullscreen();
+        }
+    }
+
+    document.getElementById('themeToggle').addEventListener('click', toggleDarkMode);
+
+    if (localStorage.getItem('darkMode') === 'true') {
+        toggleDarkMode();
+    }
+
+    document.addEventListener('fullscreenchange', () => {
+        const themeToggle = document.getElementById('themeToggle');
+        const fullscreenToggle = document.getElementById('fullscreenToggle');
+        themeToggle.style.display = document.fullscreenElement ? 'none' : 'block';
+        fullscreenToggle.style.display = document.fullscreenElement ? 'none' : 'block';
+    });
+
+    document.getElementById('fullscreenToggle').addEventListener('click', toggleFullscreen);
+
+    updateTime();
+    setInterval(updateTime, 1000);
+</script>
+</body>
+</html>
