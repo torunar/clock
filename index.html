@@ -16,16 +16,21 @@
         }
 
         body.dark-mode {
-            background-color: #222;
+            background-color: #000;
             color: #fff;
+            background-image: url(https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fusagif.com%2Fwp-content%2Fuploads%2F2022%2Fhqgif%2Felmo-8-elmo-and-fire-background-acegif.gif&f=1&nofb=1&ipt=ddc25b4898dc15b0773c95c4950bf19a2aef68543911825a78845e2c6760bb23);
+            background-repeat: no-repeat;
+            background-size: 100% auto;
+            background-position: center bottom;
+            image-rendering: pixelated;
         }
 
         .time-display {
             font-variant-numeric: tabular-nums;
-            font-size: min(55vh, 30vw);
+            font-size: min(50vh, 25vw);
             font-family: sans-serif;
-            text-align: center;
-            position: relative;
+            font-weight: bold;
+            margin-bottom: min(20vh, 12vw);
         }
 
         .colon {
@@ -99,7 +104,7 @@
         const isDarkMode = document.body.classList.contains('dark-mode');
         localStorage.setItem('darkMode', isDarkMode);
         const themeToggle = document.getElementById('themeToggle');
-        themeToggle.textContent = isDarkMode ? '☀️' : '🌙';
+        themeToggle.textContent = isDarkMode ? '☀️' : '🔥';
     }
 
     function toggleFullscreen() {
